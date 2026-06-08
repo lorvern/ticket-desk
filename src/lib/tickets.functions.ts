@@ -345,9 +345,21 @@ export const verifyPayment = createServerFn({ method: "POST" })
       .eq("id", order.id);
 
     if (order.coupon_id) {
-      await supabaseAdmin.rpc("increment_coupon_use" as never, { _id: order.coupon_id } as never).catch(() => {
-        /* optional */
-      });
+      try {
+        const { data: c } = await supabaseAdmin
+          .from("coupons")
+          .select("uses_count")
+          .eq("id", order.coupon_id)
+          .maybeSingle();
+        if (c) {
+          await supabaseAdmin
+            .from("coupons")
+            .update({ uses_count: (c.uses_count ?? 0) + 1 })
+            .eq("id", order.coupon_id);
+        }
+      } catch {
+        /* non-fatal */
+      }
     }
 
     // Fire-and-forget email (no-op if RESEND_API_KEY missing)
