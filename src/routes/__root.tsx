@@ -84,11 +84,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Discover concerts, festivals and gala events in Ghana. Buy tickets in seconds with Mobile Money, Visa or bank.",
       },
-      { property: "og:title", content: "TicketDesk" },
-      { property: "og:description", content: "Premium event ticketing in Ghana." },
+      { property: "og:title", content: "TicketDesk — Premium Event Ticketing in Ghana" },
+      { property: "og:description", content: "Ghana Tickets is a modern event ticketing platform for Ghana, enabling organizers to sell tickets online and attendees to purchase them easily." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0A0A0A" },
+      { name: "twitter:title", content: "TicketDesk — Premium Event Ticketing in Ghana" },
+      { name: "description", content: "Ghana Tickets is a modern event ticketing platform for Ghana, enabling organizers to sell tickets online and attendees to purchase them easily." },
+      { name: "twitter:description", content: "Ghana Tickets is a modern event ticketing platform for Ghana, enabling organizers to sell tickets online and attendees to purchase them easily." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/74a196a9-c870-41f3-b682-a07d32762343/id-preview-46d15c59--ed2cd2df-9ad1-4d9d-a69a-880ab7bfe283.lovable.app-1780913147689.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/74a196a9-c870-41f3-b682-a07d32762343/id-preview-46d15c59--ed2cd2df-9ad1-4d9d-a69a-880ab7bfe283.lovable.app-1780913147689.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
