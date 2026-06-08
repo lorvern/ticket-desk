@@ -14,7 +14,376 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      coupons: {
+        Row: {
+          code: string
+          created_at: string
+          discount_type: string
+          discount_value: number
+          event_id: string | null
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          max_uses: number | null
+          uses_count: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          discount_type: string
+          discount_value: number
+          event_id?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          uses_count?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          event_id?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          uses_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coupons_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          banner_url: string | null
+          category: string | null
+          created_at: string
+          description: string | null
+          ends_at: string | null
+          id: string
+          is_featured: boolean
+          name: string
+          organizer_contact: string | null
+          organizer_name: string | null
+          slug: string
+          starts_at: string
+          status: string
+          updated_at: string
+          venue: string
+        }
+        Insert: {
+          banner_url?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          is_featured?: boolean
+          name: string
+          organizer_contact?: string | null
+          organizer_name?: string | null
+          slug: string
+          starts_at: string
+          status?: string
+          updated_at?: string
+          venue: string
+        }
+        Update: {
+          banner_url?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          id?: string
+          is_featured?: boolean
+          name?: string
+          organizer_contact?: string | null
+          organizer_name?: string | null
+          slug?: string
+          starts_at?: string
+          status?: string
+          updated_at?: string
+          venue?: string
+        }
+        Relationships: []
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          quantity: number
+          ticket_category_id: string
+          ticket_name: string
+          unit_price_pesewas: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          quantity: number
+          ticket_category_id: string
+          ticket_name: string
+          unit_price_pesewas: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          quantity?: number
+          ticket_category_id?: string
+          ticket_name?: string
+          unit_price_pesewas?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_ticket_category_id_fkey"
+            columns: ["ticket_category_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          buyer_email: string
+          buyer_name: string
+          buyer_phone: string
+          coupon_id: string | null
+          created_at: string
+          discount_pesewas: number
+          event_id: string
+          fee_pesewas: number
+          id: string
+          paid_at: string | null
+          paystack_access_code: string | null
+          paystack_reference: string | null
+          reference: string
+          status: string
+          subtotal_pesewas: number
+          total_pesewas: number
+          updated_at: string
+        }
+        Insert: {
+          buyer_email: string
+          buyer_name: string
+          buyer_phone: string
+          coupon_id?: string | null
+          created_at?: string
+          discount_pesewas?: number
+          event_id: string
+          fee_pesewas?: number
+          id?: string
+          paid_at?: string | null
+          paystack_access_code?: string | null
+          paystack_reference?: string | null
+          reference: string
+          status?: string
+          subtotal_pesewas?: number
+          total_pesewas?: number
+          updated_at?: string
+        }
+        Update: {
+          buyer_email?: string
+          buyer_name?: string
+          buyer_phone?: string
+          coupon_id?: string | null
+          created_at?: string
+          discount_pesewas?: number
+          event_id?: string
+          fee_pesewas?: number
+          id?: string
+          paid_at?: string | null
+          paystack_access_code?: string | null
+          paystack_reference?: string | null
+          reference?: string
+          status?: string
+          subtotal_pesewas?: number
+          total_pesewas?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_coupon_id_fkey"
+            columns: ["coupon_id"]
+            isOneToOne: false
+            referencedRelation: "coupons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_id: string
+          id: string
+          is_visible: boolean
+          name: string
+          price_pesewas: number
+          quantity: number
+          sale_ends_at: string | null
+          sale_starts_at: string | null
+          sold_count: number
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_id: string
+          id?: string
+          is_visible?: boolean
+          name: string
+          price_pesewas: number
+          quantity: number
+          sale_ends_at?: string | null
+          sale_starts_at?: string | null
+          sold_count?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_id?: string
+          id?: string
+          is_visible?: boolean
+          name?: string
+          price_pesewas?: number
+          quantity?: number
+          sale_ends_at?: string | null
+          sale_starts_at?: string | null
+          sold_count?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_categories_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_scans: {
+        Row: {
+          id: string
+          result: string
+          scanned_at: string
+          scanned_by: string | null
+          ticket_id: string
+        }
+        Insert: {
+          id?: string
+          result: string
+          scanned_at?: string
+          scanned_by?: string | null
+          ticket_id: string
+        }
+        Update: {
+          id?: string
+          result?: string
+          scanned_at?: string
+          scanned_by?: string | null
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_scans_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          attendee_name: string | null
+          created_at: string
+          event_id: string
+          id: string
+          order_id: string
+          qr_payload: string
+          status: string
+          ticket_category_id: string
+          ticket_code: string
+          used_at: string | null
+        }
+        Insert: {
+          attendee_name?: string | null
+          created_at?: string
+          event_id: string
+          id?: string
+          order_id: string
+          qr_payload: string
+          status?: string
+          ticket_category_id: string
+          ticket_code: string
+          used_at?: string | null
+        }
+        Update: {
+          attendee_name?: string | null
+          created_at?: string
+          event_id?: string
+          id?: string
+          order_id?: string
+          qr_payload?: string
+          status?: string
+          ticket_category_id?: string
+          ticket_code?: string
+          used_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_ticket_category_id_fkey"
+            columns: ["ticket_category_id"]
+            isOneToOne: false
+            referencedRelation: "ticket_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
