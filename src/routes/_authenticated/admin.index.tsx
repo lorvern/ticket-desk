@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { adminAnalytics, getMyRole } from "@/lib/admin.functions";
-import { formatGhs } from "@/lib/format";
+import { formatGHS } from "@/lib/format";
 import { CalendarDays, ShoppingBag, TicketIcon, TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -53,7 +53,7 @@ function AdminDashboard() {
   return (
     <AdminShell title="Dashboard">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Gross revenue" value={isLoading ? "…" : formatGhs(data!.summary.grossPesewas)} icon={TrendingUp} />
+        <StatCard label="Gross revenue" value={isLoading ? "…" : formatGHS(data!.summary.grossPesewas)} icon={TrendingUp} />
         <StatCard label="Paid orders" value={isLoading ? "…" : String(data!.summary.ordersCount)} icon={ShoppingBag} />
         <StatCard label="Tickets issued" value={isLoading ? "…" : String(data!.summary.ticketsIssued)} icon={TicketIcon} />
         <StatCard label="Events" value={isLoading ? "…" : String(data!.summary.totalEvents)} icon={CalendarDays} />
@@ -68,7 +68,7 @@ function AdminDashboard() {
                 <div
                   className="w-full rounded-t bg-gradient-to-t from-ink to-gold transition-opacity hover:opacity-90"
                   style={{ height: `${(d.revenue / max) * 100}%`, minHeight: 2 }}
-                  title={`${d.date}: ${formatGhs(d.revenue)}`}
+                  title={`${d.date}: ${formatGHS(d.revenue)}`}
                 />
                 <span className="text-[9px] text-muted-foreground">{d.date.slice(5)}</span>
               </div>
@@ -81,7 +81,7 @@ function AdminDashboard() {
             {(data?.topEvents ?? []).map((e, i) => (
               <li key={i} className="flex items-center justify-between gap-3">
                 <span className="truncate text-sm">{e.name}</span>
-                <span className="text-sm font-semibold">{formatGhs(e.revenue)}</span>
+                <span className="text-sm font-semibold">{formatGHS(e.revenue)}</span>
               </li>
             ))}
             {(data?.topEvents.length ?? 0) === 0 && (
@@ -111,7 +111,7 @@ function AdminDashboard() {
                       "bg-muted text-muted-foreground"
                     }`}>{o.status}</span>
                   </td>
-                  <td className="text-right font-semibold">{formatGhs(o.total_pesewas)}</td>
+                  <td className="text-right font-semibold">{formatGHS(o.total_pesewas)}</td>
                 </tr>
               ))}
             </tbody>

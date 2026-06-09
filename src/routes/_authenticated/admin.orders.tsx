@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { adminListOrders } from "@/lib/admin.functions";
 import { Card } from "@/components/ui/card";
-import { formatGhs } from "@/lib/format";
+import { formatGHS } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/admin/orders")({
   component: OrdersPage,
@@ -66,7 +66,7 @@ function OrdersPage() {
                 <td className="px-4 py-3 text-xs text-muted-foreground">
                   {new Date(o.created_at).toLocaleString()}
                 </td>
-                <td className="px-4 py-3 text-right font-semibold">{formatGhs(o.total_pesewas)}</td>
+                <td className="px-4 py-3 text-right font-semibold">{formatGHS(o.total_pesewas)}</td>
               </tr>
             ))}
           </tbody>

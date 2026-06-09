@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Trash2, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
-import { formatGhs } from "@/lib/format";
+import { formatGHS } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/admin/events/$id")({
   component: EditEvent,
@@ -72,11 +72,11 @@ function EditEvent() {
         <div className="grid gap-3">
           {data.categories.map((c: any) => (
             <CategoryRow key={c.id} cat={c} eventId={id}
-              onSave={(v) => saveCat.mutate(v)}
+              onSave={(v: any) => saveCat.mutate(v)}
               onDelete={() => { if (confirm("Delete this ticket category?")) removeCat.mutate(c.id); }}
               saving={saveCat.isPending} />
           ))}
-          <NewCategory eventId={id} onCreate={(v) => saveCat.mutate(v)} saving={saveCat.isPending} />
+          <NewCategory eventId={id} onCreate={(v: any) => saveCat.mutate(v)} saving={saveCat.isPending} />
         </div>
       </div>
     </AdminShell>
@@ -122,7 +122,7 @@ function CategoryRow({ cat, eventId, onSave, onDelete, saving }: any) {
         </div>
       </div>
       <p className="md:col-span-12 text-xs text-muted-foreground">
-        Current revenue (this tier): {formatGhs(cat.price_pesewas * cat.sold_count)}
+        Current revenue (this tier): {formatGHS(cat.price_pesewas * cat.sold_count)}
       </p>
     </Card>
   );

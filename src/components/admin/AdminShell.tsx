@@ -5,11 +5,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 
-const NAV = [
+const NAV: Array<{ to: string; label: string; icon: any; exact?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/events", label: "Events", icon: CalendarDays },
   { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
-] as const;
+];
 
 export function AdminShell({ children, title }: { children: ReactNode; title?: string }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
