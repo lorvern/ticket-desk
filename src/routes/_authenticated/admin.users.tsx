@@ -36,7 +36,7 @@ function AdminUsersPage() {
   });
 
   const [email, setEmail] = useState("");
-  const [lookup, setLookup] = useState<Awaited<ReturnType<typeof findUser>> | null>(null);
+  const [lookup, setLookup] = useState<any>(null);
 
   const findMut = useMutation({
     mutationFn: (e: string) => findUser({ data: { email: e } }),
