@@ -129,9 +129,7 @@ function EventPage() {
                 </div>
                 <div>
                   <p className="font-semibold">{event.organizer_name}</p>
-                  {event.organizer_contact && (
-                    <p className="text-sm text-muted-foreground">{event.organizer_contact}</p>
-                  )}
+
                 </div>
               </div>
             </div>
