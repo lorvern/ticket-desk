@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, CalendarDays, ShoppingBag, LogOut, Ticket, ExternalLink } from "lucide-react";
+import { LayoutDashboard, CalendarDays, ShoppingBag, LogOut, Ticket, ExternalLink, Shield } from "lucide-react";
 import type { ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ const NAV: Array<{ to: string; label: string; icon: any; exact?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/events", label: "Events", icon: CalendarDays },
   { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
+  { to: "/admin/users", label: "Admins", icon: Shield },
 ];
 
 export function AdminShell({ children, title }: { children: ReactNode; title?: string }) {
