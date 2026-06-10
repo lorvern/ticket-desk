@@ -279,3 +279,84 @@ export const adminAnalytics = createServerFn({ method: "GET" })
       recentOrders: recent ?? [],
     };
   });
+
+// ---------- Admin user management ----------
+export const adminListAdmins = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: roles, error } = await supabaseAdmin
+      .from("user_roles").select("user_id, role, created_at").eq("role", "admin");
+    if (error) throw new Error(error.message);
+    const ids = (roles ?? []).map((r) => r.user_id);
+    const admins: Array<{ user_id: string; email: string | null; created_at: string }> = [];
+    for (const r of roles ?? []) {
+      const { data: u } = await supabaseAdmin.auth.admin.getUserById(r.user_id);
+      admins.push({
+        user_id: r.user_id,
+        email: u.user?.email ?? null,
+        created_at: r.created_at as string,
+      });
+    }
+    return { admins, count: ids.length };
+  });
+
+export const adminFindUserByEmail = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ email: z.string().trim().email().max(255) }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // Paginate up to 10 pages of 200 users to find the match
+    const target = data.email.toLowerCase();
+    for (let page = 1; page <= 10; page++) {
+      const { data: list, error } = await supabaseAdmin.auth.admin.listUsers({ page, perPage: 200 });
+      if (error) throw new Error(error.message);
+      const match = list.users.find((u) => (u.email ?? "").toLowerCase() === target);
+      if (match) {
+        const { data: roles } = await supabaseAdmin
+          .from("user_roles").select("role").eq("user_id", match.id);
+        return {
+          user: { id: match.id, email: match.email ?? null, created_at: match.created_at },
+          roles: (roles ?? []).map((r) => r.role),
+          isAdmin: (roles ?? []).some((r) => r.role === "admin"),
+        };
+      }
+      if (list.users.length < 200) break;
+    }
+    return { user: null, roles: [], isAdmin: false };
+  });
+
+export const adminGrantAdmin = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ userId: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("user_roles")
+      .insert({ user_id: data.userId, role: "admin" as any });
+    if (error && !error.message.toLowerCase().includes("duplicate")) {
+      throw new Error(error.message);
+    }
+    return { ok: true };
+  });
+
+export const adminRevokeAdmin = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => z.object({ userId: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { count, error: cErr } = await supabaseAdmin
+      .from("user_roles").select("*", { count: "exact", head: true }).eq("role", "admin");
+    if (cErr) throw new Error(cErr.message);
+    if ((count ?? 0) <= 1) {
+      throw new Error("Cannot revoke the last admin. Promote another user first.");
+    }
+    const { error } = await supabaseAdmin
+      .from("user_roles").delete().eq("user_id", data.userId).eq("role", "admin");
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
