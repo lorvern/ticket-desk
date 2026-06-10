@@ -68,7 +68,7 @@ export const getEventBySlug = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: event, error } = await supabaseAdmin
       .from("events")
-      .select("*")
+      .select("id, slug, name, description, banner_url, venue, starts_at, ends_at, organizer_name, is_featured, category, status")
       .eq("slug", data.slug)
       .eq("status", "published")
       .maybeSingle();
