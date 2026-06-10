@@ -69,9 +69,9 @@ export function Navbar() {
           {!user ? (
             <Link
               to="/auth"
-              className="ml-1 inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-2 text-muted-foreground hover:text-foreground"
+              className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-ink px-3 py-2 text-ink-foreground hover:bg-ink/90"
             >
-              <LogIn className="h-3.5 w-3.5" /> Sign in
+              <LayoutDashboard className="h-3.5 w-3.5" /> Admin
             </Link>
           ) : (
             <button
