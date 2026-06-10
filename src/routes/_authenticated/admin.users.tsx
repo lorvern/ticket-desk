@@ -63,7 +63,7 @@ function AdminUsersPage() {
       toast.success("Admin access revoked.");
       qc.invalidateQueries({ queryKey: ["admin", "admins"] });
       if (lookup?.user?.id === userId) {
-        setLookup({ ...lookup, isAdmin: false, roles: lookup.roles.filter((r) => r !== "admin") });
+        setLookup({ ...lookup, isAdmin: false, roles: lookup.roles.filter((r: string) => r !== "admin") });
       }
     },
     onError: (e: any) => toast.error(e.message ?? "Failed to revoke"),
