@@ -75,8 +75,8 @@ function AuthPage() {
             </div>
             <div>
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" autoComplete="current-password" required
-                minLength={6} value={password} onChange={(e) => setPassword(e.target.value)}
+              <Input id="password" type="password" autoComplete="current-password"
+                value={password} onChange={(e) => setPassword(e.target.value)}
                 className="mt-1" />
             </div>
             <Button type="submit" variant="ink" size="lg" className="w-full" disabled={loading}>
