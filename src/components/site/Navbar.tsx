@@ -1,24 +1,20 @@
 import { Link } from "@tanstack/react-router";
-import { Ticket, LayoutDashboard, LogOut } from "lucide-react";
+import { Ticket, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export function Navbar() {
   const [user, setUser] = useState<{ id: string } | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     async function check() {
       const { data: u } = await supabase.auth.getUser();
       if (!u.user) {
-        if (mounted) { setUser(null); setIsAdmin(false); }
+        if (mounted) setUser(null);
         return;
       }
       if (mounted) setUser({ id: u.user.id });
-      const { data } = await supabase
-        .from("user_roles").select("role").eq("user_id", u.user.id).eq("role", "admin").maybeSingle();
-      if (mounted) setIsAdmin(!!data);
     }
     check();
     const { data: sub } = supabase.auth.onAuthStateChange((evt) => {
@@ -30,7 +26,6 @@ export function Navbar() {
   async function handleSignOut() {
     await supabase.auth.signOut();
     setUser(null);
-    setIsAdmin(false);
   }
 
   return (
@@ -58,20 +53,12 @@ export function Navbar() {
           >
             My Tickets
           </Link>
-          {isAdmin && (
-            <Link
-              to="/admin"
-              className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-ink px-3 py-2 text-ink-foreground hover:bg-ink/90"
-            >
-              <LayoutDashboard className="h-3.5 w-3.5" /> Admin
-            </Link>
-          )}
           {!user ? (
             <Link
               to="/auth"
               className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-ink px-3 py-2 text-ink-foreground hover:bg-ink/90"
             >
-              <LayoutDashboard className="h-3.5 w-3.5" /> Admin
+              Sign in
             </Link>
           ) : (
             <button
@@ -87,4 +74,3 @@ export function Navbar() {
     </header>
   );
 }
-
