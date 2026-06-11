@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 
 export function Navbar() {
   const [user, setUser] = useState<{ id: string } | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     let mounted = true;
