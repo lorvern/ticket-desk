@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Ticket, LogOut } from "lucide-react";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Ticket } from "lucide-react";
+import type { ReactNode } from "react";
 
 export function Navbar() {
   const [user, setUser] = useState<{ id: string } | null>(null);
