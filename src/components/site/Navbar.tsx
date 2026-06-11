@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Ticket, LayoutDashboard, LogOut } from "lucide-react";
+import { Ticket, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
