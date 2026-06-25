@@ -1,0 +1,1 @@
+TRUNCATE TABLE public.ticket_scans, public.tickets, public.order_items, public.orders, public.coupons, public.ticket_categories, public.events RESTART IDENTITY CASCADE;
