@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createFileRoute, notFound, Link, type ErrorComponentProps } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
@@ -20,9 +20,11 @@ export const Route = createFileRoute("/ticket/$id")({
     return data;
   },
   head: () => ({ meta: [{ title: "Your Ticket — TicketDesk" }, { name: "robots", content: "noindex" }] }),
-  errorComponent: ({ error }) => (
+  errorComponent: ({ error }: ErrorComponentProps) => (
     <div className="grid min-h-screen place-items-center p-8 text-center">
-      <p className="text-muted-foreground">{error.message}</p>
+      <p className="text-muted-foreground">
+        {error instanceof Error ? error.message : "Unexpected error"}
+      </p>
     </div>
   ),
   notFoundComponent: () => (
