@@ -42,6 +42,8 @@ function HomePage() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
   const categories = useMemo(
     () => Array.from(new Set(events.map((e) => e.category).filter(Boolean))) as string[],
