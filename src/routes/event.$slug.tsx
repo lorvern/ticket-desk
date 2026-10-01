@@ -38,11 +38,13 @@ export const Route = createFileRoute("/event/$slug")({
         ]
       : [{ title: "Event — TicketDesk" }],
   }),
-  errorComponent: ({ error }) => (
+  errorComponent: ({ error }: ErrorComponentProps) => (
     <div className="grid min-h-screen place-items-center p-8 text-center">
       <div>
         <h1 className="font-display text-2xl">Something went wrong</h1>
-        <p className="mt-2 text-muted-foreground">{error.message}</p>
+        <p className="mt-2 text-muted-foreground">
+          {error instanceof Error ? error.message : "Unexpected error"}
+        </p>
       </div>
     </div>
   ),
