@@ -26,7 +26,7 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="/my-tickets" className="text-muted-foreground transition hover:text-foreground">
+              <Link to="/retrieve-ticket" className="text-muted-foreground transition hover:text-foreground">
                 My tickets
               </Link>
             </li>
